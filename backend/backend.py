@@ -8,9 +8,6 @@ import logging
 import redis
 import queue
 import pdfkit
-import time
-
-time.sleep(20)
 
 xrange=range
 
@@ -29,14 +26,6 @@ redis_port = os.environ.get('REDIS_PORT')
 redis_db = os.environ.get('REDIS_DB')
 logging.basicConfig(level=logging.DEBUG,format='%(asctime)-15s - %(threadName)-10s - %(message)s',filename=logfile)
 
-pdfkitoptions = {
-    'enable-local-file-access': None,
-    'javascript-delay': 200,
-    'wait-for-network-idle': None
-}
-
-time.sleep(15)
-
 def render_pdf(msg_id):
     output_file = '/tmp/' + msg_id + '.pdf'
     input_file = '/tmp/' + msg_id + '.html'
@@ -49,7 +38,7 @@ def render_pdf(msg_id):
     m.close()
     logging.debug('html writed')
     start_time = time.time()
-    sys_output = pdfkit.from_file(input_file, output_file, options=pdfkitoptions)
+    sys_output = pdfkit.from_file(input_file, output_file)
     finish_time = time.time()
     input_size = str(os.path.getsize(input_file)/1024) #.decode('utf-8')
     output_size = str(os.path.getsize(output_file)/1024) #.decode('utf-8')
@@ -74,30 +63,23 @@ def render_pdf(msg_id):
         return True, output_file
     return False, sys_output
 
-#logging.debug('backend node starting...')
-print('backend node starting...')
+logging.debug('backend node starting...')
 TQ = queue.Queue()
-#logging.debug('threads pool starting...')
-print('threads pool starting...')
+logging.debug('threads pool starting...')
 
 def catcher(q):
     while True:
         try:
-            print ("trying...")
-            print (q)
             item = q.get()
-            print ("wut...")
         except Empty:
             break
 
-        #logging.debug('render get task: ' + item.strip().decode('utf-8'))
-        print('render get task: ' + item.strip().decode('utf-8'))
+        logging.debug('render get task: ' + item.strip().decode('utf-8'))
         render_pdf(item.strip().decode('utf-8'))
         q.task_done()
 
 for i in xrange(max_threads):
     wrkr_T = threading.Thread(target = catcher, args=(TQ,))
-    print('thread created...')
     wrkr_T.daemon = True
     wrkr_T.start()
     logging.debug('thread: ' + str(i) + ' started')

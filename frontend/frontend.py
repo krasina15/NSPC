@@ -12,9 +12,6 @@ from socketserver import ThreadingMixIn
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
 import pika
-import time
-
-time.sleep(15)
 
 if sys.argv[1:]:
     http_port = int(sys.argv[1])
@@ -66,10 +63,8 @@ def render_html(input_file):
     redis_server.set(koreanrandom, input_file)
     rabbit_server = pika.BlockingConnection(pika.ConnectionParameters(host=rabbit_host,credentials=credentials))
     channel = rabbit_server.channel()
-    print('try rabbit')
     channel.queue_declare(queue=rabbit_queue)
-    channel.basic_publish(exchange='', routing_key=rabbit_queue,body=koreanrandom)
-    print(koreanrandom)
+    channel.basic_publish(exchange='', routing_key='hello',body=koreanrandom)
     rabbit_server.close()
     o = koreanrandom.split('_')
     koreanrandom = o[1]
@@ -116,7 +111,6 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
 
-    print('frontend node starting...')
     HTTPDeamon = ThreadingSimpleServer(('', http_port), HTTPRequestHandler)
     print("frontend node started at port" , http_port)
 

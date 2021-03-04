@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  redishost:
+    image: redis
+    networks:
+      - nspc
+    ports:
+      - "6379:6379"
+  rabbithost:
+    image: rabbitmq
+    networks:
+      - nspc
+    ports:
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+  frontend:
+    image: nspc:0.0.2
+    command: frontend.py
+    environment:
+      - REDIS_HOST=nspc_redishost_1
+      - RABBIT_HOST=nspc_rabbithost_1
+    ports:
+      - "8013:8013"
+    networks:
+      - nspc  
+  backend:
+    image: nspc:0.0.2
+    command: backend.py
+    environment:
+      - REDIS_HOST=nspc_redishost_1
+      - RABBIT_HOST=nspc_rabbithost_1
+    networks:
+      - nspc
+networks:
+  nspc:
+    driver: bridge

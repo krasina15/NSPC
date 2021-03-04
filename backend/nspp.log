@@ -1,0 +1,31 @@
+2021-03-02 21:56:19,040 - MainThread - backend node starting...
+2021-03-02 21:56:19,040 - MainThread - threads pool starting...
+2021-03-02 21:56:19,041 - MainThread - thread: 0 started
+2021-03-02 21:56:19,041 - MainThread - thread: 1 started
+2021-03-02 21:56:19,041 - MainThread - thread: 2 started
+2021-03-02 21:56:19,041 - MainThread - thread: 3 started
+2021-03-02 21:56:19,042 - MainThread - consumer started...
+2021-03-02 21:56:19,042 - MainThread - Using KQueuePoller
+2021-03-02 21:56:19,043 - MainThread - Created default connection workflow <pika.adapters.utils.connection_workflow.AMQPConnectionWorkflow object at 0x10a9548e0>
+2021-03-02 21:56:19,043 - MainThread - Starting AMQP Connection workflow asynchronously.
+2021-03-02 21:56:19,043 - MainThread - call_later: added timeout <pika.adapters.select_connection._Timeout object at 0x10a954d30> with deadline=0.135056649 and callback=functools.partial(<bound method AMQPConnectionWorkflow._start_new_cycle_async of <pika.adapters.utils.connection_workflow.AMQPConnectionWorkflow object at 0x10a9548e0>>, first=True); now=0.135056649; delay=0
+2021-03-02 21:56:19,043 - MainThread - Beginning a new AMQP connection workflow cycle; attempts remaining after this: 0
+2021-03-02 21:56:19,044 - MainThread - call_later: added timeout <pika.adapters.select_connection._Timeout object at 0x10a954d90> with deadline=0.135422083 and callback=<bound method AMQPConnectionWorkflow._try_next_config_async of <pika.adapters.utils.connection_workflow.AMQPConnectionWorkflow object at 0x10a9548e0>>; now=0.135422083; delay=0
+2021-03-02 21:56:19,044 - MainThread - _try_next_config_async: 'ubuntu05.sandbox':5672
+2021-03-02 21:56:19,090 - Thread-5   - Address resolution failed: gaierror(8, 'nodename nor servname provided, or not known')
+2021-03-02 21:56:19,090 - Thread-5   - add_callback_threadsafe: added callback=<bound method _AddressResolver._dispatch_result of <pika.adapters.utils.selector_ioloop_adapter._AddressResolver object at 0x10a954e20>>
+2021-03-02 21:56:19,090 - MainThread - process_timeouts: invoking callback=<bound method _AddressResolver._dispatch_result of <pika.adapters.utils.selector_ioloop_adapter._AddressResolver object at 0x10a954e20>>
+2021-03-02 21:56:19,091 - MainThread - Invoking asynchronous getaddrinfo() completion callback; host='ubuntu05.sandbox'
+2021-03-02 21:56:19,091 - MainThread - getaddrinfo failed: gaierror(8, 'nodename nor servname provided, or not known').
+2021-03-02 21:56:19,091 - MainThread - AMQP connection workflow failed: AMQPConnectionWorkflowFailed: 1 exceptions in all; last exception - gaierror(8, 'nodename nor servname provided, or not known'); first exception - None.
+2021-03-02 21:56:19,091 - MainThread - AMQPConnectionWorkflow - reporting failure: AMQPConnectionWorkflowFailed: 1 exceptions in all; last exception - gaierror(8, 'nodename nor servname provided, or not known'); first exception - None
+2021-03-02 21:56:19,092 - MainThread - Connection workflow failed: AMQPConnectionWorkflowFailed: 1 exceptions in all; last exception - gaierror(8, 'nodename nor servname provided, or not known'); first exception - None
+2021-03-02 21:56:19,092 - MainThread - Error in _create_connection().
+Traceback (most recent call last):
+  File "/Users/krasina15/Apps/NSPC/backend/venv/lib/python3.9/site-packages/pika/adapters/blocking_connection.py", line 451, in _create_connection
+    raise self._reap_last_connection_workflow_error(error)
+  File "/Users/krasina15/Apps/NSPC/backend/venv/lib/python3.9/site-packages/pika/adapters/utils/selector_ioloop_adapter.py", line 565, in _resolve
+    result = socket.getaddrinfo(self._host, self._port, self._family,
+  File "/usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/lib/python3.9/socket.py", line 953, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
